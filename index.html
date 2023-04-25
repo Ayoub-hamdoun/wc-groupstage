@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FIFA WORLD CUP | Resultes</title>
+    <link rel="icon" href="./public/images/world-cup.png" />
+    <!-- Bootstrap css -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./dist/css/style.css" />
+  </head>
+  <body>
+    <!-- fifa qatar logo -->
+    <div id="logo-wrapper">
+      <img
+        src="./public/images/[CITYPNG.COM]Qatar 2022 Fifa World Cup Logo HD PNG - 2018x2412.png"
+        alt=""
+      />
+      <img src="./public/images/pngegg.png" alt="" />
+    </div>
+    <!-- header -->
+    <div id="header" class="bg-primary">
+      <div id="header-background">
+        <div class="header-title p-4">
+          <h1>WORLD CUP</h1>
+          <h1>Qatar 2022</h1>
+        </div>
+      </div>
+    </div>
+    <!-- Standings word -->
+    <div class="standings-word">
+      <h1 class="standings-word_text">Standings</h1>
+    </div>
+    <!-- main section -->
+    <div class="container main">
+      <!-- group stage -->
+      <div class="groupstage-wrapper p-5">
+        <!-- title -->
+        <div class="row">
+          <h1 class="title">groups:</h1>
+          <hr />
+        </div>
+        <!-- groups standings -->
+        <div class="row" id="standings">
+          <!-- group -->
+          <div class="col-sm-6 mb-3">
+            <div class="card shadow border-none">
+              <div
+                class="card-header"
+                style="background: #bd2537; color: white; text-align: center"
+              >
+                <b>Group (A)</b>
+              </div>
+              <div
+                class="row m-0"
+                style="background: #8d1b29; color: white; text-align: center"
+              >
+                <div class="col-sm-4" style="text-align: center">team</div>
+                <div class="col-sm-2" style="text-align: center">W</div>
+                <div class="col-sm-2" style="text-align: center">D</div>
+                <div class="col-sm-2" style="text-align: center">L</div>
+                <div class="col-sm-2" style="text-align: center">Pts</div>
+              </div>
+              <!-- Teams list -->
+              <ul class="list-group list-group-flush">
+                <!-- team -->
+                <li class="list-group-item">
+                  <div class="row">
+                    <div
+                      class="col-sm-4 d-flex justify-content-center align-items-center"
+                      style="text-align: center"
+                    >
+                      <span class="falg">
+                        <img
+                          src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_Morocco.svg/255px-Flag_of_Morocco.svg.png"
+                          alt=""
+                          class="rounded-circle"
+                          style="
+                            width: 40px;
+                            height: 40px;
+                            filter: drop-shadow(0 0 0);
+                          "
+                        />
+                      </span>
+                      <h5 style="margin: auto 4px">MAR</h5>
+                    </div>
+                    <div class="col-sm-2" style="text-align: center">1</div>
+                    <div class="col-sm-2" style="text-align: center">2</div>
+                    <div class="col-sm-2" style="text-align: center">2</div>
+                    <div class="col-sm-2" style="text-align: center">3</div>
+                  </div>
+                </li>
+                <!-- //team -->
+              </ul>
+            </div>
+          </div>
+          <!-- //group -->
+        </div>
+      </div>
+      <!-- //group stage -->
+    </div>
+  </body>
+  <!-- bootstrap JavaScript -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+  <script>
+    const token = "bd652c7bfc3d46698372b3b138c005e6";
+    const baseUrl = "https://api.football-data.org/v4/competitions/2000";
+
+    function getStandings() {
+      const url = `${baseUrl}/standings`;
+
+      axios
+        .get(url, {
+          headers: {
+            "X-Auth-Token": token,
+          },
+        })
+        .then((response) => {
+          const standings = response.data.standings;
+          //empty the group div
+          document.getElementById("standings").innerHTML = "";
+          for (standing of standings) {
+            //result of each team == table row
+            let tableContent = "";
+            for (row of standing.table) {
+              tableContent += `
+              <!-- team -->
+                <li class="list-group-item">
+                  <div class="row">
+                    <div
+                      class="col-sm-4 d-flex justify-content-center align-items-center"
+                      style="text-align: center"
+                    >
+                      <span class="falg">
+                        <img
+                          src="${row.team.crest}"
+                          alt=""
+                          class="rounded-circle"
+                          style="
+                            width: 40px;
+                            height: 40px;
+                            filter: drop-shadow(0 0 0);
+                            object-fit: cover;
+                          "
+                        />
+                      </span>
+                      <h5 style="margin: auto 4px">${row.team.tla}</h5>
+                    </div>
+                    <div class="col-sm-2" style="text-align: center">${row.won}</div>
+                    <div class="col-sm-2" style="text-align: center">${row.draw}</div>
+                    <div class="col-sm-2" style="text-align: center">${row.lost}</div>
+                    <div class="col-sm-2" style="text-align: center">${row.points}</div>
+                  </div>
+                </li>
+                <!-- //team -->
+              `;
+            }
+
+            //now we put the result of all taems in the group
+
+            const groupContent = `
+          <!-- group -->
+          <div class="col-sm-6 mb-3">
+            <div class="card shadow border-none">
+              <div
+                class="card-header"
+                style="background: #bd2537; color: white; text-align: center"
+              >
+                <b>${standing.group}</b>
+              </div>
+              <div
+                class="row m-0"
+                style="background: #8d1b29; color: white; text-align: center"
+              >
+                <div class="col-sm-4" style="text-align: center">team</div>
+                <div class="col-sm-2" style="text-align: center">W</div>
+                <div class="col-sm-2" style="text-align: center">D</div>
+                <div class="col-sm-2" style="text-align: center">L</div>
+                <div class="col-sm-2" style="text-align: center">Pts</div>
+              </div>
+              <!-- Teams list -->
+              <ul class="list-group list-group-flush">
+                <!-- team -->
+                  ${tableContent}
+                <!-- //team -->
+              </ul>
+            </div>
+          </div>
+          <!-- //group -->
+            `;
+
+            document.getElementById("standings").innerHTML += groupContent;
+          }
+        });
+    }
+    getStandings();
+  </script>
+</html>
